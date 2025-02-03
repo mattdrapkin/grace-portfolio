@@ -6,7 +6,7 @@ export default function Home() {
       title: "Hi, I'm Grace!",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      imageSrc: "/placeholder1.jpg",
+      imageSrc: "/starter_images/hi_im_grace.jpg",
       imageAlt: "Actor performing on stage",
     },
     {

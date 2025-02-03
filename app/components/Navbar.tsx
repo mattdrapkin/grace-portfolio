@@ -3,16 +3,19 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   const navItems = [
     { name: 'HOME', path: '/' },
     { name: 'ABOUT', path: '/about' },
     { name: 'HEADSHOTS & RESUME', path: '/headshots-resume' },
     { name: 'GALLERY', path: '/gallery' },
+    { name: 'MEDIA', path: '/media' },
   ];
 
   return (
@@ -23,7 +26,7 @@ const Navbar = () => {
             GRACE McKENNA
           </Link>
           
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex space-x-6 items-center">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -35,6 +38,21 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            {session ? (
+              <button
+                onClick={() => signOut()}
+                className="text-sm tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
+              >
+                LOGOUT
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="text-sm tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
+              >
+                ADMIN
+              </Link>
+            )}
           </div>
 
           <button 
@@ -95,6 +113,25 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            {session ? (
+              <button
+                onClick={() => {
+                  signOut();
+                  setIsMenuOpen(false);
+                }}
+                className="text-lg tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300 text-left"
+              >
+                LOGOUT
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="text-lg tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                ADMIN
+              </Link>
+            )}
           </div>
         </div>
       </div>

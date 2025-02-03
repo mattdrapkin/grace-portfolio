@@ -3,15 +3,18 @@ import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Providers from "./providers";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
   title: "Grace McKenna",
-  description: "MFA Student at Rider University | Actor & Artist",
+  description: "Grace McKenna is a professional actor, singer, and dancer based in New York City.",
 };
 
 export default function RootLayout({
@@ -22,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cormorant.className} bg-[#fafafa]`}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
