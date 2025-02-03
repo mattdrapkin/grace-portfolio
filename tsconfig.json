@@ -23,6 +23,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/create-admin.js", "app/api/headshots/route.js", "app/api/resume/route.js", "app/api/media/route.js", "app/api/resumes/route.js", "lib/prisma.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/create-admin.js", "app/api/headshots/route.js", "app/api/resume/route.js", "app/api/media/route.js", "app/api/resumes/route.js", "lib/prisma.js", "next.config.js"],
   "exclude": ["node_modules"]
 }

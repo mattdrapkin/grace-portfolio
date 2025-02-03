@@ -1,43 +1,46 @@
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { authOptions } from '@/lib/auth';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
-
-export default async function ResumePage() {
-  const session = await getServerSession(authOptions);
-  const activeResume = await prisma.resume.findFirst({
-    where: {
-      isActive: true,
-    },
-  });
-
+export default function Resume() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Resume</h1>
-        {session && (
-          <Link
-            href="/admin/headshots-resume"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-          >
-            Manage Headshots & Resume
-          </Link>
-        )}
-      </div>
-      
-      {activeResume ? (
-        <div className="w-full aspect-[8.5/11] bg-white rounded-lg shadow-lg overflow-hidden">
-          <iframe
-            src={`${activeResume.fileUrl}#toolbar=0`}
-            className="w-full h-full"
-            title="Resume"
-          />
+    <div className="min-h-screen pt-20">
+      <div className="max-w-6xl mx-auto px-6">
+        <h1 className="text-5xl font-light mb-6">RESUME</h1>
+        <div className="h-[1px] w-24 bg-[#ff4d4d] mb-12"></div>
+        
+        <div className="bg-white p-8 shadow-sm">
+          <div className="space-y-8">
+            <section>
+              <h2 className="text-2xl font-light mb-4">EDUCATION</h2>
+              <div className="space-y-2">
+                <p className="font-medium">MFA - Rider University</p>
+                <p className="text-gray-600">Expected [Year]</p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-light mb-4">THEATER</h2>
+              <div className="space-y-2">
+                <div>
+                  <p className="font-medium">Performance Title</p>
+                  <p className="text-gray-600">Role • Theater Name • Year</p>
+                </div>
+                <div>
+                  <p className="font-medium">Performance Title</p>
+                  <p className="text-gray-600">Role • Theater Name • Year</p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-light mb-4">SKILLS</h2>
+              <div className="space-y-2">
+                <p className="text-gray-600">Skill Category 1: Skill 1, Skill 2, Skill 3</p>
+                <p className="text-gray-600">Skill Category 2: Skill 1, Skill 2, Skill 3</p>
+              </div>
+            </section>
+          </div>
         </div>
-      ) : (
-        <p className="text-gray-600">No resume available.</p>
-      )}
+      </div>
     </div>
   );
 }

@@ -3,12 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { data: session } = useSession();
 
   const navItems = [
     { name: 'HOME', path: '/' },
@@ -38,103 +36,50 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            {session ? (
-              <button
-                onClick={() => signOut()}
-                className="text-sm tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
-              >
-                LOGOUT
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="text-sm tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
-              >
-                ADMIN
-              </Link>
-            )}
           </div>
 
-          <button 
-            className="md:hidden"
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            className="md:hidden text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
             </svg>
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`fixed inset-0 bg-black/50 z-50 md:hidden transition-opacity duration-300 ${
-          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setIsMenuOpen(false)}
-      />
-
       {/* Mobile Menu */}
-      <div 
-        className={`fixed top-0 right-0 h-full w-[300px] bg-[#fafafa] z-50 md:hidden transform transition-transform duration-300 ease-out ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-8">
-            <Link 
-              href="/" 
-              className="text-2xl font-light"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              GRACE McKENNA
-            </Link>
-            <button 
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Close menu"
-              className="p-2"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div className="flex flex-col space-y-6">
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#fafafa] md:hidden">
+          <div className="flex flex-col items-center justify-center h-full space-y-8">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
+                onClick={() => setIsMenuOpen(false)}
                 className={`text-lg tracking-wide transition-colors duration-300 hover:text-[#ff4d4d] ${
                   pathname === item.path ? 'text-[#ff4d4d]' : 'text-gray-800'
                 }`}
-                onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}
               </Link>
             ))}
-            {session ? (
-              <button
-                onClick={() => {
-                  signOut();
-                  setIsMenuOpen(false);
-                }}
-                className="text-lg tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300 text-left"
-              >
-                LOGOUT
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="text-lg tracking-wide text-gray-800 hover:text-[#ff4d4d] transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                ADMIN
-              </Link>
-            )}
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
